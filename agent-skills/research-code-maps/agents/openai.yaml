@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Code Maps"
+  short_description: "Keep research documentation aligned with code"
+  default_prompt: "Use $research-code-maps to update the project maps affected by this research-code change."

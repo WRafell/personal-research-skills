@@ -1,0 +1,4 @@
+interface:
+  display_name: "Experiment Management"
+  short_description: "Track reproducible research experiments"
+  default_prompt: "Use $experiment-management to structure and record a reproducible experiment."

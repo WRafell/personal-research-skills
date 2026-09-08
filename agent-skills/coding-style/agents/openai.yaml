@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coding Style"
+  short_description: "Apply the repository owner’s coding conventions"
+  default_prompt: "Use $coding-style when implementing or refactoring code in this repository."

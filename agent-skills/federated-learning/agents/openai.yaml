@@ -1,0 +1,4 @@
+interface:
+  display_name: "Federated Learning"
+  short_description: "Build consistent federated learning experiments"
+  default_prompt: "Use $federated-learning to implement or revise a federated learning experiment in this repository."
