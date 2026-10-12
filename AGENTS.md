@@ -37,6 +37,33 @@ For changes to algorithms, stochastic state, control or data flow,
 configuration wiring, method contracts, aggregation, or trusted results, read
 and follow `agent-skills/research-code-maps/SKILL.md`.
 
+### Handoff
+
+Before work, read the project's handoff log; before ending a session that
+changed code, data, jobs, or plans, append one entry. Read and follow
+`agent-skills/handoff/SKILL.md`.
+
+### Research notes
+
+For dated, evidence-based research notes, read and follow
+`agent-skills/research-notes/SKILL.md`.
+
+### HTML research reports
+
+For HTML result pages and project briefings, read and follow
+`agent-skills/html-research-reports/SKILL.md`.
+
+### Agent collaboration
+
+To use Codex and Claude Code as independent reviewers of each other, read and
+follow `agent-skills/agents-collab/SKILL.md`.
+
+### Writing standard (ASD-STE100)
+
+When a project asks for Simplified Technical English, read and follow
+`agent-skills/writing-skill/SKILL.md`. The skill is active only on explicit
+request.
+
 ## Project-specific instructions
 
 Define repository paths, report mirrors, environments, remote worktrees,

@@ -8,6 +8,27 @@ description: Structure, run, and record reproducible research experiments with s
 Use the repository's established experiment paths and schemas when they exist.
 Introduce the defaults below when the project has no equivalent convention.
 
+Related skills: `coding-style` (code), `cluster-ssh-execution` (remote
+compute), `research-notes` (dated findings), `handoff` (session state),
+`html-research-reports` (pages), `agents-collab` (independent review).
+
+## Plan Before the Run
+
+- Write the question in one sentence.
+- Fix the primary comparison before seeing results: the metric, the operating
+  point, the population (for example the held-out test set), the unit of
+  independence (for example the slide, not the patch), and the statistical
+  test. Mark all other comparisons as secondary. With several primary
+  comparisons, fix a multiplicity correction (for example Holm) in advance.
+- Name the baseline. Compare a new method with the strongest simple baseline on
+  the same data, split, and evaluation code.
+- Change one factor at a time. Keep split, seeds, and other settings equal
+  between conditions unless the factor under test is one of them.
+- Keep calibration fair: thresholds and other selections come from training
+  data only. Label supervised or oracle settings as diagnostics.
+- Record the expected cost (compute, storage) of the plan, and check the free
+  space and quota of every output location before a large write.
+
 ## Create an Experiment Identity
 
 - Generate one experiment ID at run start in `YYMMDD-HHmmss-xxxx` — timestamp plus a 4-hex-char random suffix (using the "secret" library).
@@ -51,6 +72,11 @@ trainer behavior. Each arm is a normal method plus explicit reusable settings.
 Keep machine allocation out of experiment configs. Scheduler, node, partition,
 QoS, GPU, CPU, memory, and wall-time choices belong only in batch-submission
 shell files, so the same config can run locally or on another cluster.
+
+Store run outputs together with the record when the project uses run folders,
+for example `local/<stage>/{exp_id}/record.json` with a `launch/` folder for
+batch files, logs, and source archives. Record the SHA256 of the source files
+and of the inputs, so that a later run can confirm the same code and data.
 
 ## Complete the Same Record
 
@@ -131,6 +157,25 @@ When writing an experiment overview, analysis, or dated experiment log:
   or "preferable" when the raw measurements and stated uncertainty are enough.
 - Do not add paper-style motivation, persuasive narrative, recommendations, or
   future-work priorities unless the user explicitly requests them.
+- Default report order: question and short answer; method (data, conditions,
+  changed factor, run IDs, primary comparison); results (primary first, with
+  mean, 95% CI, test, and number of units; then secondary); minimal labeled
+  interpretation; limits (seeds, sample size, untested alternatives);
+  reproduction commands. Keep result tables and figures in versioned folders
+  next to the report (for example `docs/results/<topic>/`,
+  `docs/figures/<topic>/`), and keep a short description of every run ID,
+  including failed runs and why they failed, in a run description document.
+- After a report, add the dated finding with `research-notes` and the state
+  with `handoff`.
+
+## Move and Store Data Safely
+
+- A full quota stops every job that writes to that location. Check quota and
+  free space before large writes.
+- Move data with a copy, a complete comparison of the file lists (path and
+  size), and only then removal of the source. If stored records contain
+  absolute paths, leave a symbolic link at the old path.
+- Never move or delete data that a running or queued job reads.
 
 ## Maintain Public Report Mirrors Safely
 
@@ -148,6 +193,28 @@ When a repository maintains public copies of experiment documentation:
 - Refresh public copies from their sources after each requested update. Do not
   edit the two versions independently or allow the public mirror to become a
   second source of truth.
+
+## Run on Managed Compute
+
+- Run compute on the configured cluster through its scheduler, not on login
+  nodes (see `cluster-ssh-execution`). Deploy an isolated source snapshot and
+  record its path and the job IDs.
+- Prefer one launcher script per step. Chain dependent jobs with
+  `--dependency=afterok:<job>`. When a chain cannot continue (for example after
+  a failed upstream job), cancel and resubmit it rather than leaving it pending.
+- Check the first output of a long job early (one sample, one shard) before
+  waiting for the full run.
+
+## Verify Before Reporting
+
+- Check counts and joins against the manifests (for example feature rows equal
+  patch rows, with the same coordinates in the same order).
+- When a pipeline changes, first reproduce an earlier trusted run. The new
+  outputs must equal the earlier outputs, or the report must explain the
+  difference.
+- Keep consistency checks in code (for example "footprints do not overlap",
+  "recall equals the value of the source run").
+- Report only numbers read from saved outputs.
 
 ## Define Metrics Precisely
 
@@ -246,3 +313,5 @@ Confirm that:
     campaign-specific branches in Python.
 13. Experiment configs are portable; server allocation is confined to batch
     submission scripts.
+14. The primary comparison, baseline, and unit of independence were fixed
+    before results, and a changed pipeline reproduced an earlier trusted run.
