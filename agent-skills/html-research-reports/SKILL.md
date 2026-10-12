@@ -26,6 +26,7 @@ Build a readable research workspace from recorded evidence. Match the establishe
 - Choose example images with a rule that was fixed before (for example the cases selected by the analysis), not by eye, and give per-image values next to each image.
 - Each image that uses color to encode data needs a legend next to it: a short key under the image, and a full legend once for the section. Take the colors and value ranges from the plotting code, not from the appearance; check colormap end colors with the plotting library.
 - Say what the scale means: absolute or relative to each image, the range, and any transparency rule. When a monotone transform (for example a softmax or a per-image min–max) exaggerates small differences, say so, and name the panel that is correct for comparisons.
+- A click on an image opens it in an in-page viewer over the page (a native `<dialog>` with a dimmed backdrop), not at the image address. Show the full-size image and its description, give a visible close button (×), and also close on Esc and on a click outside the image; return the focus to the image. Keep the image link as the fallback without JavaScript, and make images without a link reachable with the keyboard.
 - Write the color name in words, in parentheses, after each swatch or ramp, for example "■ (dark red) positive class", so that the text is correct when the swatches do not show.
 
 ## Shareable pages
