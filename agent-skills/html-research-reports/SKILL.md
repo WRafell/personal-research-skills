@@ -1,11 +1,11 @@
 ---
 name: html-research-reports
-description: Create or revise source-backed HTML research reports and project briefings. Use for scientific status pages, experiment summaries, mechanism explainers, and decision workspaces.
+description: Create or revise source-backed HTML research reports and project briefings in pages/. Use for scientific status pages, experiment summaries, mechanism explainers, and decision workspaces.
 ---
 
 # HTML research reports
 
-Build a readable research workspace from recorded evidence. The project instructions name the folder for pages (default: `docs/pages/`); match the pages that are already there, and adapt the structure to the report's question. When the environment can publish a page (for example an artifact tool), publish it there and keep the source file in the project.
+Build a readable research workspace from recorded evidence. Match the established pages in `pages/` when working in this repository; adapt the structure to the report's question.
 
 ## Evidence and content
 
@@ -19,7 +19,7 @@ Build a readable research workspace from recorded evidence. The project instruct
 - Follow the existing light Swiss/editorial style: a warm bone-paper surface (`#fdfcf3`), ink text (`#202624`), readable gray secondary text (`#4b565a`), cool 1px dividers (`#c7d1d3`), and one muted teal accent (`#21696e`). Use restrained semantic colors for validated, running, warning, and blocked states. Keep status words alongside color.
 - Use a compact navigation rail and an aligned main column. Prefer dense rows, table/list hybrids, and native `<details>` for optional detail. Keep generous margins around sections without making the data sparse. Avoid bento grids, floating cards, giant KPI figures, gradients, shadows, and decorative icons.
 - Use a legible sans serif for prose and monospace with tabular numerals for dates, experiment IDs, settings, and metrics. Start around 17px body text and 15px table text; do not shrink essential data to fit. Use restrained heading sizes and clear section rules.
-- A faint paper-grain texture (an inline or local SVG) is optional. Preserve contrast and legibility. Use teal text selection, visible keyboard focus, and compact tags and progress marks only where they encode information.
+- The shared `pages/paper-grain.svg` can add faint texture. Preserve contrast and legibility. Use teal text selection, visible keyboard focus, and compact tags and progress marks only where they encode information.
 
 ## Diagrams and interaction
 
