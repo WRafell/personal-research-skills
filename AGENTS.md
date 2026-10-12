@@ -45,8 +45,10 @@ changed code, data, jobs, or plans, append one entry. Read and follow
 
 ### Research notes
 
-For dated, evidence-based research notes, read and follow
-`agent-skills/research-notes/SKILL.md`.
+For dated research notes, read and follow `agent-skills/research-notes/SKILL.md`.
+Each note is a self-contained record in full sentences: what was done, why,
+how, and the raw results with their numbers. Links to files are supporting
+references only, never the content of a note.
 
 ### HTML research reports
 
