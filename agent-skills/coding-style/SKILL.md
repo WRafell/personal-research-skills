@@ -190,7 +190,15 @@ pytest                           # behavior (or the tests of the changed modules
 ```
 
 Install them as development tools of the project (for example
-`pip install -e ".[dev]"` with `dev = ["pytest", "ruff", "pyrefly"]`).
+`pip install -e ".[dev]"` with `dev = ["pytest", "ruff", "pyrefly"]`). Run them
+inside the env (`conda run -n <env> ...` or an activated env): Pyrefly reads
+the interpreter from the active env (`CONDA_PREFIX`), and outside it checks
+against the wrong site-packages and reports false missing imports.
+
+In an existing repository with many old findings, record the baseline counts
+in the project instructions, check only the changed files, and leave no new
+finding in them; do not mass-fix or mass-reformat old code unless the user
+asks.
 
 - Non-trivial core logic leaves one small deterministic test with **pytest**
   (`tests/test_<module>.py`). Document nondeterminism that cannot reasonably
