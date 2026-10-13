@@ -33,10 +33,11 @@ aggregation, FL evaluation, or experiment tracking, read and follow
 `agent-skills/federated-learning/SKILL.md`. Apply the coding-style and
 experiment-management skills alongside it when relevant.
 
-### Paper writing
+### Scientific writing
 
-For LaTeX research manuscripts, read and follow
-`agent-skills/paper-writing/SKILL.md`.
+For drafting, revising, reviewing, or checking research manuscripts (claims
+and evidence, statistics, reporting checklists, citations, figures, LaTeX
+format), read and follow `agent-skills/scientific-writing/SKILL.md`.
 
 ### Research code maps
 

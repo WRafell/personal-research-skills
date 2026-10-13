@@ -19,6 +19,13 @@ For experiments, evaluations, ablations, baselines, result schemas, or
 experiment logs, read and follow
 `agent-skills/experiment-management/SKILL.md`.
 
+### Proof of concept
+
+For prototypes, spikes, quick tests, or feasibility checks outside the main
+pipeline, read and follow `agent-skills/proof-of-concept/SKILL.md`. Each POC
+lives in its own `poc/<YYMMDD>-<slug>/` folder, the main code never depends on
+it, and it ends by promotion into the main code or by an archive note.
+
 ### Federated learning
 
 For federated algorithms, client/server training, data partitioning,
@@ -26,10 +33,11 @@ aggregation, FL evaluation, or experiment tracking, read and follow
 `agent-skills/federated-learning/SKILL.md`. Apply the coding-style and
 experiment-management skills alongside it when relevant.
 
-### Paper writing
+### Scientific writing
 
-For LaTeX research manuscripts, read and follow
-`agent-skills/paper-writing/SKILL.md`.
+For drafting, revising, reviewing, or checking research manuscripts (claims
+and evidence, statistics, reporting checklists, citations, figures, LaTeX
+format), read and follow `agent-skills/scientific-writing/SKILL.md`.
 
 ### Research code maps
 
