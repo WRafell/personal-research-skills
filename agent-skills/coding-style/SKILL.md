@@ -156,6 +156,10 @@ reason. MAY = permitted exception when the condition is true.
 ## Format Python Consistently
 
 - Follow PEP 8 and modern type checker recommendations.
+- Format with **Ruff** (`ruff format`) and keep the project's Ruff settings in
+  `pyproject.toml` (default: line length 120; lint rules `E`, `F`, `I`, `B`,
+  `UP`). Do not reformat files that the change does not touch, unless the
+  user asks.
 - Prefer submodule imports such as `from torch import nn` over aliases such as
   `import torch.nn as nn`.
 - In orchestration scripts, use uppercase string blocks as visual section
@@ -174,8 +178,26 @@ reason. MAY = permitted exception when the condition is true.
 
 ## Tests and Static Checking (mandatory)
 
-- Non-trivial core logic leaves one small deterministic test. Document
-  nondeterminism that cannot reasonably be removed.
+Three checks gate every code change. Run them in the project environment (the
+project's conda env), on the workstation or a compute node, never on a login
+node:
+
+```bash
+ruff format <changed files>      # format
+ruff check <changed files>       # lint: bugs, unused names, imports, old syntax
+pyrefly check <changed files>    # types
+pytest                           # behavior (or the tests of the changed modules)
+```
+
+Install them as development tools of the project (for example
+`pip install -e ".[dev]"` with `dev = ["pytest", "ruff", "pyrefly"]`).
+
+- Non-trivial core logic leaves one small deterministic test with **pytest**
+  (`tests/test_<module>.py`). Document nondeterminism that cannot reasonably
+  be removed. A failing or skipped test is reported, never hidden.
+- Run **Ruff** on changed code (`ruff check`; apply `ruff check --fix` only to
+  the changed files) and fix every finding. Use `# noqa: <code>` only with a
+  reason in the same comment.
 - Always run **Pyrefly** on changed code (`pyrefly check` or
   `pyrefly check path/to/file.py`; install with `pip install pyrefly`,
   initialize once with `pyrefly init`). Prefer strict settings. Fix all reported
@@ -183,6 +205,12 @@ reason. MAY = permitted exception when the condition is true.
 - Use `# pyrefly: ignore[...]` only temporarily with a clear reason; never leave
   permanent suppressions without justification. Prefer Pyrefly over mypy or
   pyright when both are available.
+- Each executable module has `main()` and ends with
+  `if __name__ == "__main__": main()`; importing a module never starts work.
+  Ruff and Pyrefly do not check this; keep a test that does (the
+  `project-scaffold` template has `tests/test_entry_points.py`).
+- When a tool is not installed or cannot run, say so in the reply; do not
+  claim a check that was not made.
 
 ## Code for AI Coding Agents
 
@@ -222,4 +250,7 @@ Confirm that:
 9. Method arguments describe independent reusable behavior, while campaign
    values live in configuration and launch files.
 10. Server and scheduler details appear only in batch-submission shell files.
-11. `pyrefly check` reports no errors for the changed code.
+11. `ruff format` and `ruff check` report nothing for the changed code.
+12. `pyrefly check` reports no errors for the changed code.
+13. `pytest` passes (new core logic has its test); every executable module has
+    the `__main__` guard.

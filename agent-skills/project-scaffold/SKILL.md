@@ -1,6 +1,6 @@
 ---
 name: project-scaffold
-description: Create the standard skeleton of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENT.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
+description: Create the standard skeleton and conda env of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENT.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
 ---
 
 # Project scaffold
@@ -22,7 +22,7 @@ skeleton inside a project.
     AGENT.md, CLAUDE.md       skills and project values; CLAUDE.md points to AGENT.md
     README.md                 question, setup, run commands
     .gitignore                Python caches, local/, poc/*/out/, large files
-    pyproject.toml            ruff, pyrefly, pytest (pythonpath = src)
+    pyproject.toml            installable package; dev extra and settings for ruff, pyrefly, pytest
     src/<package>/
         __init__.py
         main.py               entry point: main() and the __main__ guard
@@ -62,8 +62,10 @@ skeleton inside a project.
 ## Procedure
 
 1. Get the project name, the package name (a valid Python identifier), the
-   one-sentence question, the environment, the clusters, and the time zone.
-   Ask only for what the user did not give; use `TBD` for the rest.
+   one-sentence question, the conda env name (default: the project name), the
+   Python version (default: 3.11), the machines that need the env (default:
+   the workstation), the clusters, and the time zone. Ask only for what the
+   user did not give; use `TBD` for the rest.
 2. Do not write into a folder that has files, except an empty git repository.
 3. Copy the template and fill the placeholders:
 
@@ -73,21 +75,35 @@ skeleton inside a project.
    cp -r "$SKILL/template/." "$DEST/"
    mv "$DEST/gitignore" "$DEST/.gitignore"
    mv "$DEST/src/__package__" "$DEST/src/$PKG"
-   grep -rl '__package__\|__project__\|__question__\|__environment__\|__clusters__\|__timezone__' "$DEST" \
+   grep -rl '__package__\|__project__\|__question__\|__environment__\|__python__\|__clusters__\|__timezone__' "$DEST" \
      | xargs sed -i -e "s/__package__/$PKG/g" -e "s/__project__/<project>/g" \
-       -e "s/__question__/<question>/g" -e "s/__environment__/<environment>/g" \
+       -e "s/__question__/<question>/g" -e "s/__environment__/<env name>/g" \
+       -e "s/__python__/<python version>/g" \
        -e "s/__clusters__/<clusters>/g" -e "s/__timezone__/<time zone>/g"
    ```
 
-4. Check: no placeholder is left (`grep -rn '__[a-z]*__' "$DEST"` shows only
-   the `__name__`/`__main__`/`__init__`/`__doc__` names); after
-   `pip install -e .` in the project environment, `pytest`, `ruff check`, and
-   `python -m <package>.main --config configs/example.json` pass (on a compute
-   node or the workstation, not a login node).
-5. `git init` if the folder is not a repository. Do not commit or push unless
+4. Create the conda env on each machine that needs it. Check first that the
+   name is free (`conda env list`); if it exists, ask before using or
+   replacing it.
+
+   ```bash
+   conda create -y -n <env name> python=<python version>
+   conda run -n <env name> pip install -e "$DEST[dev]"
+   ```
+
+   On a cluster, create the env as the cluster instructions say (installs on
+   the login node are usually permitted; running code there is not).
+5. Check: no placeholder is left (`grep -rn '__[a-z]*__' "$DEST"` shows only
+   the `__name__`/`__main__`/`__init__`/`__doc__`/`__pycache__` names), and in the new env
+   (`conda run -n <env name> ...`, on the workstation or a compute node, not a
+   login node) these pass: `ruff format --check .`, `ruff check .`,
+   `pyrefly check`, `pytest`, and
+   `python -m <package>.main --config configs/example.json`.
+6. `git init` if the folder is not a repository. Do not commit or push unless
    the user asks.
-6. Append the first handoff entry: what was created, the project values, and
-   the open `TBD` values.
+7. Append the first handoff entry: what was created, the env name and
+   machines, the check results, the project values, and the open `TBD`
+   values.
 
 ## Adapt, do not grow
 

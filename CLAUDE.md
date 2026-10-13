@@ -11,13 +11,14 @@ remote work through one-shot SSH commands and the scheduler.
 ### Coding style
 
 For implementation, refactoring, or code review, read and follow
-`agent-skills/coding-style/SKILL.md`.
+`agent-skills/coding-style/SKILL.md`. Every code change passes `ruff format`, `ruff check`,
+`pyrefly check`, and `pytest` in the project environment.
 
 ### Project scaffold
 
 When starting a new project or repository, create the standard skeleton
 (src package with `main.py` and the `__main__` guard, configs, tests, scripts,
-docs, `.gitignore`, pyproject) from the template: read and follow
+docs, `.gitignore`, pyproject) and its conda env from the template: read and follow
 `agent-skills/project-scaffold/SKILL.md`. A new experiment inside a project is
 a config, not a new skeleton.
 

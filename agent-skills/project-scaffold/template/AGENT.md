@@ -9,7 +9,8 @@ The shared skills are installed at user level (`~/.claude/skills`, `~/.codex/ski
 - Package: `src/__package__/`; entry points run as `python -m __package__.<module>`; each has `main()` and the `__main__` guard.
 - Configs: `configs/<stage>/`; runs: `local/<stage>/<run_id>/record.json`; scratch: `local/scratch/`; proofs of concept: `poc/<YYMMDD>-<slug>/`.
 - Handoff log: `docs/handoff.md` (time zone: __timezone__). Research notes: `docs/research-notes/`. Run index: `docs/experiment_runs.md`. HTML pages: `docs/pages/`. Digests: `docs/digests/<YYYYMMDD>-<slug>/`. Report copies: `docs/results/`, `docs/figures/`.
-- Environment: __environment__. Clusters: __clusters__.
+- Environment: conda env `__environment__` (Python __python__), installed with `pip install -e ".[dev]"`. Clusters: __clusters__.
+- Checks before code is done (in the env, not on a login node): `ruff format`, `ruff check`, `pyrefly check`, `pytest`.
 
 # Reports
 
