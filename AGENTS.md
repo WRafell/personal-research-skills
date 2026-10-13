@@ -58,6 +58,12 @@ Each note is a self-contained record in full sentences: what was done, why,
 how, and the raw results with their numbers. Links to files are supporting
 references only, never the content of a note.
 
+### Research digest
+
+On request, turn the handoff log and research notes into one self-contained
+Markdown or LaTeX document with no references to internal files: read and
+follow `agent-skills/research-digest/SKILL.md`.
+
 ### HTML research reports
 
 For HTML result pages and project briefings, read and follow
