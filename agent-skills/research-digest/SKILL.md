@@ -1,6 +1,6 @@
 ---
 name: research-digest
-description: On request, turn the handoff log and dated research notes (and the records they cite) into one self-contained Markdown or LaTeX document with tables and figures (stored in docs/digests/assets/) and no references to internal files, paths, hosts, or job IDs, written to scientific-writing practice. Use when the user asks for a digest, summary document, write-up, progress report, or shareable account of the project or of one topic or period.
+description: On request, turn the handoff log and dated research notes (and the records they cite) into one self-contained Markdown or LaTeX document with tables and figures (in its own folder docs/digests/<YYYYMMDD>-<slug>/ with an assets/ subfolder) and no references to internal files, paths, hosts, or job IDs, written to scientific-writing practice. Use when the user asks for a digest, summary document, write-up, progress report, or shareable account of the project or of one topic or period.
 ---
 
 # Research digest
@@ -21,11 +21,16 @@ Fix these before writing; ask only for what the request does not say:
 - **Order:** by topic (default: question, method, results, decisions) or by
   date.
 
-Write the file to `docs/digests/<YYYYMMDD>-<slug>.md` (or `.tex`) unless the
-project names another place. Put its figures in
-`docs/digests/assets/<YYYYMMDD>-<slug>/`, so that the digest folder holds
-everything the document shows. Never edit the handoff log, the notes, or the
-reports to make the digest.
+Give each digest its own folder, unless the project names another place:
+
+```text
+docs/digests/<YYYYMMDD>-<slug>/
+    digest.md          (or digest.tex for LaTeX)
+    assets/            figures and other files that the document shows
+```
+
+The folder is complete by itself: it can be copied, zipped, or shared as it
+is. Never edit the handoff log, the notes, or the reports to make the digest.
 
 ## Sources
 
@@ -61,9 +66,9 @@ The digest refers only to itself and to published literature.
   Markdown).
 - **Literature citations are permitted** and follow `scientific-writing`:
   verified against the DOI or the source, with a full reference list.
-- **Figures:** embed only images in the digest's own assets folder, linked
-  with a relative path (`assets/<YYYYMMDD>-<slug>/<name>.png`); never link to
-  another project path.
+- **Figures:** embed only images in the digest's own `assets/` folder, linked
+  with a relative path (`assets/<name>.png`); never link to another project
+  path.
 
 ## Content
 
@@ -99,7 +104,7 @@ complete.
   color legend). Copy existing figures from the project reports when they fit
   the reader; otherwise make new ones from the records with a script, and
   keep that script in the project, not in the digest folder.
-- Store each figure in `docs/digests/assets/<YYYYMMDD>-<slug>/` with a short
+- Store each figure in the digest's `assets/` folder with a short
   descriptive name (for example `dice_by_encoder.png`). Compress large images
   (for example JPEG for photographs, PNG or PDF for plots).
 - Number every table and figure, refer to each one in the text, and give each
@@ -124,7 +129,8 @@ when the project requires it), unless the user asks for paper prose.
 - [ ] Tables and figures: a table of conditions, a results table for each
       question, a figure for each main result; each one numbered, cited in
       the text, and captioned; every image is in
-      `docs/digests/assets/<YYYYMMDD>-<slug>/` and loads by a relative path.
+      the digest's `assets/` folder and loads by a relative path; nothing
+      outside the digest folder is needed.
 - [ ] LaTeX: the document compiles.
 - [ ] In the reply, list the sources read, any log errors found, and any
       result whose state could not be confirmed.

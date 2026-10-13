@@ -61,8 +61,9 @@ references only, never the content of a note.
 ### Research digest
 
 On request, turn the handoff log and research notes into one self-contained
-Markdown or LaTeX document, with tables and figures in `docs/digests/assets/`
-and no references to internal files: read and
+Markdown or LaTeX document with tables and figures, in its own folder
+`docs/digests/<YYYYMMDD>-<slug>/` (`digest.md` or `digest.tex`, and `assets/`),
+with no references to internal files: read and
 follow `agent-skills/research-digest/SKILL.md`.
 
 ### HTML research reports
