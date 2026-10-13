@@ -1,6 +1,6 @@
 ---
 name: experiment-management
-description: Structure, run, and record reproducible research experiments with stable identifiers, resolved settings, results, failures, metrics, timing, and an append-only experiment index. Use when creating or modifying experiment entry points, training runs, evaluations, ablations, baselines, notebook-to-script migrations, result schemas, or experiment logs.
+description: Structure, run, and record reproducible research experiments with stable identifiers, resolved settings, results, failures, metrics, timing, an append-only experiment index, and a tidy workspace (experiments as configs, one run root, promote then prune). Use when creating or modifying experiment entry points, training runs, evaluations, ablations, baselines, notebook-to-script migrations, result schemas, or experiment logs.
 ---
 
 # Experiment Management
@@ -180,6 +180,36 @@ when no experiment index exists.
 
 Do not add failed runs to the successful-run index. Their structured error
 records are the source of truth.
+
+## Keep the Workspace Tidy
+
+A new experiment adds a config and a run folder, not new code folders. Files
+that nothing cites are removed on a schedule.
+
+1. **Experiments are configs, not scripts.** A new experiment is a config file
+   in the project's config folder (for example `configs/<stage>/<name>.json`)
+   plus a run of an existing entry point. Do not copy a script or create a new
+   code folder for an experiment. Add or change code only when the method
+   changes, and then put it in the existing module with its test. One-off
+   analysis code goes in the existing analysis module as a function, not in a
+   new file for each question.
+2. **One output root with a fixed layout.** Each run writes only to
+   `local/<stage>/<run_id>/` (or the run root that the project names):
+   `record.json`, `metrics/`, `figures/`, `logs/`, and `launch/` for batch
+   files. Nothing else writes next to it. Temporary files go to one scratch
+   folder (for example `local/scratch/`) that is safe to delete at any time.
+3. **Promote, then prune.** Copy to the report folders (for example
+   `docs/results/`) only the records and figures that a report cites. A
+   failed or superseded run keeps its `record.json` with its status and the
+   reason; delete its large outputs (checkpoints, feature files, tables) after
+   the retention time (default 14 days) unless a report, a research note, or
+   the index cites the run. Never delete an output that a running job reads.
+4. **Check before handoff.** List what is not tidy and report it in the
+   handoff entry: run folders without `record.json`; failed or superseded runs
+   past the retention time; files outside the run root and the scratch folder
+   that git does not track and no report cites; scripts or config files that
+   are not used by any entry point, batch file, or record; empty folders.
+   Delete only what the rules above permit; ask the user about the rest.
 
 ## Write Evidence-First Experiment Reports
 
@@ -365,3 +395,7 @@ Confirm that:
     submission scripts.
 14. The primary comparison, baseline, and unit of independence were fixed
     before results, and a changed pipeline reproduced an earlier trusted run.
+15. The experiment added a config and a run folder, not a copied script or a
+    new code folder; outputs are only in the run root and the scratch folder.
+16. The tidiness check ran, its findings are in the handoff entry, and only
+    permitted files were deleted.
