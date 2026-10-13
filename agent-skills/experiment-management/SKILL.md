@@ -186,6 +186,10 @@ records are the source of truth.
 A new experiment adds a config and a run folder, not new code folders. Files
 that nothing cites are removed on a schedule.
 
+Quick prototypes and feasibility checks outside the main pipeline follow
+`proof-of-concept` (a self-contained `poc/<YYMMDD>-<slug>/` folder that must
+end by promotion or archive).
+
 1. **Experiments are configs, not scripts.** A new experiment is a config file
    in the project's config folder (for example `configs/<stage>/<name>.json`)
    plus a run of an existing entry point. Do not copy a script or create a new
@@ -209,6 +213,8 @@ that nothing cites are removed on a schedule.
    past the retention time; files outside the run root and the scratch folder
    that git does not track and no report cites; scripts or config files that
    are not used by any entry point, batch file, or record; empty folders.
+   Also list POCs past their time limit and any import from `poc/` outside
+   it (see `proof-of-concept`).
    Delete only what the rules above permit; ask the user about the rest.
 
 ## Write Evidence-First Experiment Reports
