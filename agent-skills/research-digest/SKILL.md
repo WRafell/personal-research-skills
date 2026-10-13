@@ -1,6 +1,6 @@
 ---
 name: research-digest
-description: On request, turn the handoff log and dated research notes (and the records they cite) into one self-contained Markdown or LaTeX document with no references to internal files, paths, hosts, or job IDs, written to scientific-writing practice. Use when the user asks for a digest, summary document, write-up, progress report, or shareable account of the project or of one topic or period.
+description: On request, turn the handoff log and dated research notes (and the records they cite) into one self-contained Markdown or LaTeX document with tables and figures (stored in docs/digests/assets/) and no references to internal files, paths, hosts, or job IDs, written to scientific-writing practice. Use when the user asks for a digest, summary document, write-up, progress report, or shareable account of the project or of one topic or period.
 ---
 
 # Research digest
@@ -22,7 +22,9 @@ Fix these before writing; ask only for what the request does not say:
   date.
 
 Write the file to `docs/digests/<YYYYMMDD>-<slug>.md` (or `.tex`) unless the
-project names another place. Never edit the handoff log, the notes, or the
+project names another place. Put its figures in
+`docs/digests/assets/<YYYYMMDD>-<slug>/`, so that the digest folder holds
+everything the document shows. Never edit the handoff log, the notes, or the
 reports to make the digest.
 
 ## Sources
@@ -59,9 +61,9 @@ The digest refers only to itself and to published literature.
   Markdown).
 - **Literature citations are permitted** and follow `scientific-writing`:
   verified against the DOI or the source, with a full reference list.
-- **Figures:** embed only images that ship with the digest (a figure folder
-  beside it, or files built into the LaTeX project), with standalone
-  captions; never link to a project path.
+- **Figures:** embed only images in the digest's own assets folder, linked
+  with a relative path (`assets/<YYYYMMDD>-<slug>/<name>.png`); never link to
+  another project path.
 
 ## Content
 
@@ -83,6 +85,30 @@ figures) and the report contract in `research-notes`. A default outline:
 8. **Appendix (optional).** A dated timeline of the main events, a glossary,
    and the full table of conditions.
 
+## Tables and figures
+
+A digest MUST have tables and figures; a digest of prose only is not
+complete.
+
+- **Tables** are in the document itself (Markdown tables, or `booktabs` in
+  LaTeX), not images of tables. At minimum: a table of conditions (the
+  defined labels with their settings), and one results table for each
+  question with each metric, its uncertainty, n, and the state.
+- **Figures:** at least one figure for each main result (for example a
+  comparison plot with intervals, a paired plot, or example images with their
+  color legend). Copy existing figures from the project reports when they fit
+  the reader; otherwise make new ones from the records with a script, and
+  keep that script in the project, not in the digest folder.
+- Store each figure in `docs/digests/assets/<YYYYMMDD>-<slug>/` with a short
+  descriptive name (for example `dice_by_encoder.png`). Compress large images
+  (for example JPEG for photographs, PNG or PDF for plots).
+- Number every table and figure, refer to each one in the text, and give each
+  one a caption that stands alone (what is shown, n, units, the meaning of
+  error bars and colors, and the main point). Follow the figure rules in
+  `scientific-writing`.
+- Image content must not show internal paths, host names, or job IDs (check
+  titles, axis labels, and legends).
+
 Write in the project's style standard for documents (for example ASD-STE100
 when the project requires it), unless the user asks for paper prose.
 
@@ -95,7 +121,10 @@ when the project requires it), unless the user asks for paper prose.
       has its state.
 - [ ] Every cross-reference resolves inside the document; every literature
       citation is verified.
-- [ ] LaTeX: the document compiles. Markdown: images load from the digest's
-      own folder.
+- [ ] Tables and figures: a table of conditions, a results table for each
+      question, a figure for each main result; each one numbered, cited in
+      the text, and captioned; every image is in
+      `docs/digests/assets/<YYYYMMDD>-<slug>/` and loads by a relative path.
+- [ ] LaTeX: the document compiles.
 - [ ] In the reply, list the sources read, any log errors found, and any
       result whose state could not be confirmed.
