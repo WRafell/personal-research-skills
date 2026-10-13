@@ -1,11 +1,61 @@
 ---
 name: html-research-reports
-description: Create or revise source-backed HTML research reports and project briefings in pages/. Use for scientific status pages, experiment summaries, mechanism explainers, and decision workspaces.
+description: Create or revise source-backed HTML research reports and project briefings in pages/, under the shared report contract. Use for scientific status pages, experiment summaries, mechanism explainers, and decision workspaces.
 ---
 
 # HTML research reports
 
 Build a readable research workspace from recorded evidence. Match the established pages in `pages/` when working in this repository; adapt the structure to the report's question.
+
+## Report contract
+
+This contract is the same in `research-notes`, `html-research-reports`, and
+`experiment-management`. It applies to every research report: a dated note, a
+Markdown report, and an HTML page.
+
+A report is a self-contained, source-backed record. A reader MUST understand
+it without opening any other file. Write it in this order:
+
+1. **Answer.** The current conclusion, or the short answer, first.
+2. **Question and reason.** What was asked and why it matters.
+3. **Method, in sentences.** The data and the sample counts, the conditions
+   and the one factor that changed, the baseline, the main settings with their
+   values, and the primary comparison with its statistical test, fixed before
+   the results.
+4. **Results with raw numbers.** Values read from saved records: each
+   condition's metric, the paired difference with its 95% CI, the p-value, and
+   counts such as "34 of 49 cases". Use a table when several conditions are
+   compared. Give favorable, null, mixed, and adverse results the same detail.
+5. **Interpretation.** Separate from the results. Label post-hoc analyses and
+   unmeasured mechanisms as such.
+6. **Limits and next step.**
+7. **References last.** Record IDs, job IDs, and file paths support the text;
+   they never replace the sentences or the numbers.
+
+Rules:
+
+- Label each result as planned, running, completed, or failed.
+- Never write "improved", "works", or "similar" where a measured value exists.
+- Keep reports current. When code, data, runs, or results change, update every
+  affected report in the same session, unless the user says otherwise. Dated
+  research notes and the handoff log are append-only; correct them with a new
+  entry.
+- HTML pages also follow `html-research-reports`: an Overview plus month
+  (`YYYYMM`) and day (`YYYYMMDD`) sections; a legend for each color-coded
+  image, with the color names in words; no internal paths, hosts, user names,
+  or job IDs; and a DOM test before delivery, plus a look in a real browser
+  when one is available.
+
+Before you finish, check each item and say in your reply which checks you did:
+
+- [ ] The answer is at the top; the question, method, and results are in full
+      sentences.
+- [ ] Each number agrees with its saved record; each result has its state.
+- [ ] The interpretation and limits are separate from the results.
+- [ ] References are last and replace no text.
+- [ ] Every report that this change affects is updated.
+- [ ] HTML only: legends, shareable text, DOM test, and the browser check (or
+      a statement that no browser was available).
 
 ## Evidence and content
 
