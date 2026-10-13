@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Run outputs, scratch, and proof-of-concept outputs
+local/
+poc/*/out/
+
+# Large or private files
+*.ckpt
+*.pt
+*.h5
+.env
+
+# Editors and systems
+.vscode/
+.idea/
+.DS_Store

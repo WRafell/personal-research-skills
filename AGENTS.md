@@ -13,6 +13,14 @@ perform remote work through one-shot SSH commands and the scheduler.
 For implementation, refactoring, or code review, read and follow
 `agent-skills/coding-style/SKILL.md`.
 
+### Project scaffold
+
+When starting a new project or repository, create the standard skeleton
+(src package with `main.py` and the `__main__` guard, configs, tests, scripts,
+docs, `.gitignore`, pyproject) from the template: read and follow
+`agent-skills/project-scaffold/SKILL.md`. A new experiment inside a project is
+a config, not a new skeleton.
+
 ### Experiment management
 
 For experiments, evaluations, ablations, baselines, result schemas, or
