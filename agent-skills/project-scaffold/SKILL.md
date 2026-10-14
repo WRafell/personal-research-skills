@@ -1,6 +1,6 @@
 ---
 name: project-scaffold
-description: Create the standard skeleton and conda env of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENT.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
+description: Create the standard skeleton and conda env of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENTS.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
 ---
 
 # Project scaffold
@@ -19,7 +19,7 @@ skeleton inside a project.
 
 ```text
 <project>/
-    AGENT.md, CLAUDE.md       skills and project values; CLAUDE.md points to AGENT.md
+    AGENTS.md, CLAUDE.md      skills and project values (AGENTS.md, the standard file); CLAUDE.md points to it
     README.md                 question, setup, run commands
     .gitignore                Python caches, local/, poc/*/out/, large files
     pyproject.toml            installable package; dev extra and settings for ruff, pyrefly, pytest
