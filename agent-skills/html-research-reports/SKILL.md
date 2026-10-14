@@ -77,6 +77,8 @@ Before you finish, check each item and say in your reply which checks you did:
 - Each image that uses color to encode data needs a legend next to it: a short key under the image, and a full legend once for the section. Take the colors and value ranges from the plotting code, not from the appearance; check colormap end colors with the plotting library.
 - Say what the scale means: absolute or relative to each image, the range, and any transparency rule. When a monotone transform (for example a softmax or a per-image min–max) exaggerates small differences, say so, and name the panel that is correct for comparisons.
 - A click on an image opens it in an in-page viewer over the page (a native `<dialog>` with a dimmed backdrop), not at the image address. Show the full-size image and its description, give a visible close button (×), and also close on Esc and on a click outside the image; return the focus to the image. Keep the image link as the fallback without JavaScript, and make images without a link reachable with the keyboard.
+- The viewer lets the reader zoom into the image: mouse wheel and two-finger pinch zoom at the pointer (1x to at least 8x), drag pans the zoomed image, double-click toggles a 3x zoom and back, and visible buttons (−, the zoom level, +, Fit) and the keys `+`, `-`, `0` do the same. Keep the zoomed image inside the frame (no empty margins when panning), put the frame inside the viewport (`overflow: hidden`, `touch-action: none`), and reset the zoom when the viewer opens and closes. A click inside the image never closes the viewer.
+- Save figures that readers zoom into at a resolution that keeps detail at the zoom levels (for example 150 to 200 dpi for multi-panel figures, JPEG quality 85 or more); keep each file small enough for the page (a few MB).
 - Write the color name in words, in parentheses, after each swatch or ramp, for example "■ (dark red) positive class", so that the text is correct when the swatches do not show.
 
 ## Shareable pages
@@ -104,5 +106,5 @@ Check each displayed number, status, date, source link, and derived comparison a
 
 - When a script edits the page, make each replacement check its anchor and fail if the anchor is missing; a silent miss can remove or skip a whole block of styles.
 - Check the structure (balanced tags, unique IDs, every in-page link has a target, every local file exists inside the pages folder) and scan the text for the items in Shareable pages.
-- Test the behavior (tabs, addresses, keyboard) and the computed styles (each component and swatch gets its style) with a DOM test such as jsdom; a test of visibility alone does not find lost styles.
+- Test the behavior (tabs, addresses, keyboard, viewer open, zoom, and close) and the computed styles (each component and swatch gets its style) with a DOM test such as jsdom; a test of visibility alone does not find lost styles.
 - Look at the rendered page in a real browser at desktop and phone widths when one is available. If none is available, say so; do not claim a visual check that was not made.
