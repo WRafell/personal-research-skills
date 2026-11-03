@@ -179,8 +179,8 @@ reason. MAY = permitted exception when the condition is true.
 ## Tests and Static Checking (mandatory)
 
 Three checks gate every code change. Run them in the project environment (the
-project's conda env), on the workstation or a compute node, never on a login
-node:
+project's conda env or uv `.venv`), on the workstation or a compute node, never
+on a login node:
 
 ```bash
 ruff format <changed files>      # format
@@ -190,10 +190,12 @@ pytest                           # behavior (or the tests of the changed modules
 ```
 
 Install them as development tools of the project (for example
-`pip install -e ".[dev]"` with `dev = ["pytest", "ruff", "pyrefly"]`). Run them
-inside the env (`conda run -n <env> ...` or an activated env): Pyrefly reads
-the interpreter from the active env (`CONDA_PREFIX`), and outside it checks
-against the wrong site-packages and reports false missing imports.
+`pip install -e ".[dev]"` or `uv pip install -e ".[dev]"` with
+`dev = ["pytest", "ruff", "pyrefly"]`). Run them inside the env
+(`conda run -n <env> ...`, `.venv/bin/<tool>`, or an activated env): Pyrefly
+finds the interpreter from the active conda env (`CONDA_PREFIX`) or the
+project's `.venv`, and outside it checks against the wrong site-packages and
+reports false missing imports.
 
 In an existing repository with many old findings, record the baseline counts
 in the project instructions, check only the changed files, and leave no new

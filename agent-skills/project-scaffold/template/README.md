@@ -5,9 +5,7 @@ __question__
 ## Setup
 
 ```bash
-conda create -y -n __environment__ python=__python__
-conda activate __environment__
-pip install -e ".[dev]"
+__envsetup__
 ```
 
 The package runs as `python -m __package__.main`. Checks before each change is done: `ruff format`, `ruff check`, `pyrefly check`, `pytest`.

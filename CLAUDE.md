@@ -18,7 +18,7 @@ For implementation, refactoring, or code review, read and follow
 
 When starting a new project or repository, create the standard skeleton
 (src package with `main.py` and the `__main__` guard, configs, tests, scripts,
-docs, `.gitignore`, pyproject) and its conda env from the template: read and follow
+docs, `.gitignore`, pyproject) and its conda or uv environment from the template: read and follow
 `agent-skills/project-scaffold/SKILL.md`. A new experiment inside a project is
 a config, not a new skeleton.
 

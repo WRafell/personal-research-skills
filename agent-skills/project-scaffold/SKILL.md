@@ -1,6 +1,6 @@
 ---
 name: project-scaffold
-description: Create the standard skeleton and conda env of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENTS.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
+description: Create the standard skeleton and Python environment (conda or uv, chosen by the user) of a new research project or repository (src package with main.py and the __main__ guard, configs, tests, scripts, docs with handoff, research notes, run index, pages, digests, .gitignore, pyproject with ruff, pyrefly, and pytest, AGENTS.md and CLAUDE.md) from the template in this skill. Use when the user starts a new project, a new repository, or a new codebase. A new experiment inside an existing project is a config, not a new skeleton (see experiment-management).
 ---
 
 # Project scaffold
@@ -61,49 +61,74 @@ skeleton inside a project.
 
 ## Procedure
 
-1. Get the project name, the package name (a valid Python identifier), the
-   one-sentence question, the conda env name (default: the project name), the
-   Python version (default: 3.11), the machines that need the env (default:
-   the workstation), the clusters, and the time zone. Ask only for what the
-   user did not give; use `TBD` for the rest.
-2. Do not write into a folder that has files, except an empty git repository.
-3. Copy the template and fill the placeholders:
+1. Ask the user whether to use conda or uv for the environment, unless the
+   user already said which. This choice has no default. Check first which
+   tools the machine has (`command -v conda uv`) and include that in the
+   question. If the chosen tool is not installed, tell the user; do not install
+   it without approval.
+2. Get the project name, the package name (a valid Python identifier), the
+   one-sentence question, the conda env name if the choice is conda (default:
+   the project name), the Python version (default: 3.11), the machines that
+   need the env (default: the workstation), the clusters, and the time zone.
+   Ask only for what the user did not give; use `TBD` for the rest.
+3. Do not write into a folder that has files, except an empty git repository.
+4. Copy the template and fill the placeholders. Set `ENV_SETUP` and
+   `ENV_SUMMARY` for the chosen tool only:
 
    ```bash
    SKILL=~/.claude/skills/project-scaffold   # or ~/.codex/skills/project-scaffold
-   DEST=<project folder>; PKG=<package>
+   DEST=<project folder>
+   export PKG=<package> PROJECT=<project> QUESTION='<question>' CLUSTERS='<clusters>' TIMEZONE='<time zone>'
+
+   # conda
+   export ENV_SETUP=$'conda create -y -n <env name> python=<python version>\nconda activate <env name>\npip install -e ".[dev]"'
+   export ENV_SUMMARY='conda env `<env name>` (Python <python version>), installed with `pip install -e ".[dev]"`; run tools with `conda run -n <env name> ...` or in the activated env.'
+
+   # uv
+   export ENV_SETUP=$'uv venv --python <python version> .venv\nsource .venv/bin/activate\nuv pip install -e ".[dev]"'
+   export ENV_SUMMARY='uv venv `.venv` (Python <python version>), installed with `uv pip install -e ".[dev]"`; run tools with `.venv/bin/<tool>` or in the activated env.'
+
    cp -r "$SKILL/template/." "$DEST/"
    mv "$DEST/gitignore" "$DEST/.gitignore"
    mv "$DEST/src/__package__" "$DEST/src/$PKG"
-   grep -rl '__package__\|__project__\|__question__\|__environment__\|__python__\|__clusters__\|__timezone__' "$DEST" \
-     | xargs sed -i -e "s/__package__/$PKG/g" -e "s/__project__/<project>/g" \
-       -e "s/__question__/<question>/g" -e "s/__environment__/<env name>/g" \
-       -e "s/__python__/<python version>/g" \
-       -e "s/__clusters__/<clusters>/g" -e "s/__timezone__/<time zone>/g"
+   grep -rlE '__(package|project|question|envsetup|envsummary|clusters|timezone)__' "$DEST" \
+     | xargs perl -pi -e 's/__package__/$ENV{PKG}/g; s/__project__/$ENV{PROJECT}/g;
+         s/__question__/$ENV{QUESTION}/g; s/__envsetup__/$ENV{ENV_SETUP}/g;
+         s/__envsummary__/$ENV{ENV_SUMMARY}/g; s/__clusters__/$ENV{CLUSTERS}/g;
+         s/__timezone__/$ENV{TIMEZONE}/g'
    ```
 
-4. Create the conda env on each machine that needs it. Check first that the
-   name is free (`conda env list`); if it exists, ask before using or
-   replacing it.
+5. Create the environment on each machine that needs it.
+
+   With conda, check first that the name is free (`conda env list`); if it
+   exists, ask before using or replacing it.
 
    ```bash
    conda create -y -n <env name> python=<python version>
    conda run -n <env name> pip install -e "$DEST[dev]"
    ```
 
+   With uv, the environment is the project's `.venv` (not in git, one per
+   checkout).
+
+   ```bash
+   uv venv --python <python version> "$DEST/.venv"
+   uv pip install --python "$DEST/.venv/bin/python" -e "$DEST[dev]"
+   ```
+
    On a cluster, create the env as the cluster instructions say (installs on
    the login node are usually permitted; running code there is not).
-5. Check: no placeholder is left (`grep -rn '__[a-z]*__' "$DEST"` shows only
-   the `__name__`/`__main__`/`__init__`/`__doc__`/`__pycache__` names), and in the new env
-   (`conda run -n <env name> ...`, on the workstation or a compute node, not a
-   login node) these pass: `ruff format --check .`, `ruff check .`,
-   `pyrefly check`, `pytest`, and
-   `python -m <package>.main --config configs/example.json`.
-6. `git init` if the folder is not a repository. Do not commit or push unless
+6. Check: no placeholder is left (`grep -rn '__[a-z]*__' "$DEST"` shows only
+   the `__name__`/`__main__`/`__init__`/`__doc__`/`__pycache__`/`__file__`
+   names), and in the new env (`conda run -n <env name> ...` or
+   `.venv/bin/<tool>`, on the workstation or a compute node, not a login node)
+   these pass: `ruff format --check .`, `ruff check .`, `pyrefly check`,
+   `pytest`, and `python -m <package>.main --config configs/example.json`.
+7. `git init` if the folder is not a repository. Do not commit or push unless
    the user asks.
-7. Append the first handoff entry: what was created, the env name and
-   machines, the check results, the project values, and the open `TBD`
-   values.
+8. Append the first handoff entry: what was created, the environment tool, the
+   env name and machines, the check results, the project values, and the open
+   `TBD` values.
 
 ## Adapt, do not grow
 
